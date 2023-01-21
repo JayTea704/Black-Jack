@@ -1,4 +1,3 @@
-
 public class Card {
     private String suit;
     private String face;
@@ -17,4 +16,3 @@ public class Card {
         return card;
     }
 }
-
