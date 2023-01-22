@@ -14,10 +14,8 @@ public class Main {
             if(input.next().equals("n")){
                 doYouWantToPlay = false;
             }
-            else{
-                continue;
-            }
-
         }
+
+
     }
 }

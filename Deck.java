@@ -15,10 +15,10 @@ public class Deck {
     //Method to run dialog between dealer and player. Right now just getting it to count hand totals properly. Next step is asking to hit or stand.
     public void playGame(){
         dealerTotal = 0;
+        playerTotal = 0;
         playerHand = new ArrayList<>();
         dealerHand = new ArrayList<>();
-
-        System.out.println("Dealers hand");
+        System.out.println("Dealers hand:");
 
         dealerHand.add(deal.pop());
         dealerHand.add(deal.pop());
@@ -26,31 +26,98 @@ public class Deck {
         for(String[] object: dealerHand){
             dealerTotal += addPoints(object);
         }
-
-        System.out.println(dealerTotal);
-        System.out.println(toString(dealerHand.get(0)));
+        System.out.println("Hole card");
         System.out.println(toString(dealerHand.get(1)));
         System.out.println();
 
-        /*System.out.println("Your Hand");
+        System.out.println("Your Hand:");
         playerHand.add(deal.pop());
         playerHand.add(deal.pop());
         for(String[] object: playerHand){
+            playerTotal += addPoints(object);
+        }
+        for(String[] object: playerHand){
             System.out.println(toString(object));
         }
-        System.out.println("Stand or Hit");
-        if(input.next().equals("s")){
-            System.out.println("Dealers Hand");
-            for(String[] object: dealerHand){
-                System.out.println(toString(object));
-            }
-            System.out.println();
-            System.out.println("Your hand");
-            for(String[] object: playerHand){
-                System.out.println(toString(object));
-            }
-        }*/
+        System.out.println("total: " + playerTotal);
 
+        // If player gets black jack on first hand.
+        if(playerTotal == 21){
+            System.out.println("Black Jack!");
+            if(dealerTotal != playerTotal){
+                System.out.println("congrats you win!");
+            }
+            else{
+                System.out.println("Push!");
+            }
+        }
+
+        // Stand and hit phase.
+        else{
+            while(playerTotal < 21) {
+                System.out.println("Stand or Hit (s/h)");
+                // Stand procedure.
+                if (input.next().equals("s")) {
+                    while (dealerTotal < 17) {
+
+                        dealerHand.add(deal.pop());
+                        dealerTotal += addPoints(dealerHand.get(dealerHand.size() - 1));
+                    }
+                    System.out.println("Dealers Hand");
+                    for (String[] object : dealerHand) {
+                        System.out.println(toString(object));
+                    }
+                    System.out.println();
+                    System.out.println("Your Hand");
+                    for (String[] object : playerHand) {
+                        System.out.println(toString(object));
+                    }
+                    if (dealerTotal == 21) {
+                        if (playerTotal == dealerTotal) {
+                            System.out.println("push");
+                        } else {
+                            System.out.println("Dealer wins");
+                        }
+                        return;
+                    } else if (dealerTotal > 21) {
+                        System.out.println("dealer busts");
+                        System.out.println("you win!");
+                        return;
+                    } else {
+                        if (dealerTotal > playerTotal) {
+                            System.out.println("dealer Wins!");
+                        } else {
+                            System.out.println("You win");
+                        }
+                        return;
+                    }
+                }
+
+                // Hit
+                else {
+                    playerHand.add(deal.pop());
+                    System.out.println("Your Hand");
+                    for (String[] object : playerHand) {
+                        System.out.println(toString(object));
+                    }
+                    playerTotal += addPoints(playerHand.get(playerHand.size() - 1));
+                    if (playerTotal == 21) {
+                        if (dealerTotal != playerTotal) {
+                            System.out.println("congrats you win!");
+                        } else {
+                            System.out.println("Push!");
+                        }
+                        return;
+                    }
+                    else if (playerTotal > 21) {
+                        System.out.println("You bust");
+                        return;
+                    }
+
+                }
+            }
+
+        }
     }
 
     // adds point value of card to hand total.
