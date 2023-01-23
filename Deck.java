@@ -24,7 +24,7 @@ public class Deck {
         dealerHand.add(deal.pop());
 
         for(String[] object: dealerHand){
-            dealerTotal += addPoints(object);
+            dealerTotal += dealerAddPoints(object);
         }
         System.out.println("Hole card");
         System.out.println(toString(dealerHand.get(1)));
@@ -61,7 +61,7 @@ public class Deck {
                     while (dealerTotal < 17) {
 
                         dealerHand.add(deal.pop());
-                        dealerTotal += addPoints(dealerHand.get(dealerHand.size() - 1));
+                        dealerTotal += dealerAddPoints(dealerHand.get(dealerHand.size() - 1));
                     }
                     System.out.println("Dealers Hand");
                     for (String[] object : dealerHand) {
@@ -102,6 +102,11 @@ public class Deck {
                     }
                     playerTotal += addPoints(playerHand.get(playerHand.size() - 1));
                     if (playerTotal == 21) {
+                        System.out.println();
+                        System.out.println("Dealers Hand:");
+                        for (String[] object : dealerHand) {
+                            System.out.println(toString(object));
+                        }
                         if (dealerTotal != playerTotal) {
                             System.out.println("congrats you win!");
                         } else {
@@ -131,6 +136,35 @@ public class Deck {
                 else {
                     return 11;
                 }
+            case "2":
+                return 2;
+            case "3":
+                return 3;
+            case "4":
+                return 4;
+            case "5":
+                return 5;
+            case "6":
+                return 6;
+            case "7":
+                return 7;
+            case "8":
+                return 8;
+            case "9":
+                return 9;
+        }
+        return 10;
+    }
+    public int dealerAddPoints(String[]Cards){
+        switch(Cards[1]){
+            case "Ace":
+                if((dealerTotal + 11)>= 17) {
+                    return 11;
+                }
+                else{
+                    return 1;
+                }
+
             case "2":
                 return 2;
             case "3":
