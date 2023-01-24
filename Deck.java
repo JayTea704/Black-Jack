@@ -34,20 +34,29 @@ public class Deck {
         playerHand.add(deal.pop());
         playerHand.add(deal.pop());
         for(String[] object: playerHand){
-            playerTotal += addPoints(object);
-        }
-        for(String[] object: playerHand){
             System.out.println(toString(object));
         }
-        System.out.println("total: " + playerTotal);
+        for(String[] object: playerHand){
+            playerTotal += addPoints(object);
+        }
+
+        System.out.println("Player total: " + playerTotal);
 
         // If player gets black jack on first hand.
         if(playerTotal == 21){
+            System.out.println();
             System.out.println("Black Jack!");
+            System.out.println();
+            System.out.println("Dealers hand:");
+            System.out.println(toString(dealerHand.get(0)));
+            System.out.println(toString(dealerHand.get(1)));
+            System.out.println("Dealer Total: " + dealerTotal);
             if(dealerTotal != playerTotal){
+                System.out.println();
                 System.out.println("congrats you win!");
             }
             else{
+                System.out.println();
                 System.out.println("Push!");
             }
         }
@@ -55,6 +64,7 @@ public class Deck {
         // Stand and hit phase.
         else{
             while(playerTotal < 21) {
+                System.out.println();
                 System.out.println("Stand or Hit (s/h)");
                 // Stand procedure.
                 if (input.next().equals("s")) {
@@ -63,65 +73,84 @@ public class Deck {
                         dealerHand.add(deal.pop());
                         dealerTotal += dealerAddPoints(dealerHand.get(dealerHand.size() - 1));
                     }
+                    System.out.println();
                     System.out.println("Dealers Hand");
                     for (String[] object : dealerHand) {
                         System.out.println(toString(object));
                     }
+                    System.out.println("Dealer Total: " + dealerTotal);
                     System.out.println();
                     System.out.println("Your Hand");
                     for (String[] object : playerHand) {
                         System.out.println(toString(object));
                     }
-                    if (dealerTotal == 21) {
+                    System.out.println("Player total: " + playerTotal);
+                    if (dealerTotal <= 21) {
                         if (playerTotal == dealerTotal) {
+                            System.out.println();
                             System.out.println("push");
-                        } else {
+                        } else if (dealerTotal > playerTotal) {
+                            System.out.println();
                             System.out.println("Dealer wins");
+                        } else {
+                            System.out.println();
+                            System.out.println("You win.");
                         }
                         return;
                     } else if (dealerTotal > 21) {
+                        System.out.println();
                         System.out.println("dealer busts");
+                        System.out.println();
                         System.out.println("you win!");
-                        return;
                     } else {
                         if (dealerTotal > playerTotal) {
+                            System.out.println();
                             System.out.println("dealer Wins!");
                         } else {
+                            System.out.println();
                             System.out.println("You win");
                         }
-                        return;
                     }
                 }
 
                 // Hit
                 else {
                     playerHand.add(deal.pop());
+                    System.out.println();
                     System.out.println("Your Hand");
                     for (String[] object : playerHand) {
                         System.out.println(toString(object));
                     }
                     playerTotal += addPoints(playerHand.get(playerHand.size() - 1));
+                    System.out.println("Player total: " + playerTotal);
                     if (playerTotal == 21) {
                         System.out.println();
                         System.out.println("Dealers Hand:");
                         for (String[] object : dealerHand) {
                             System.out.println(toString(object));
                         }
+                        System.out.println("Dealer total:" + dealerTotal);
                         if (dealerTotal != playerTotal) {
-                            System.out.println("congrats you win!");
+                            System.out.println();
+                            System.out.println("you win!");
                         } else {
+                            System.out.println();
+                            System.out.println("Dealers Hand:");
+                            for (String[] object : dealerHand) {
+                                System.out.println(toString(object));
+                            }
+                            System.out.println("Dealer total:" + dealerTotal);
+                            System.out.println();
                             System.out.println("Push!");
                         }
-                        return;
-                    }
-                    else if (playerTotal > 21) {
-                        System.out.println("You bust");
-                        return;
-                    }
 
+                    } else if (playerTotal > 21) {
+                        System.out.println();
+                        System.out.println("You bust");
+
+                    }
                 }
             }
-
         }
     }
 
@@ -158,11 +187,15 @@ public class Deck {
     public int dealerAddPoints(String[]Cards){
         switch(Cards[1]){
             case "Ace":
-                if((dealerTotal + 11)>= 17) {
+                if(dealerHand.size()<3){
                     return 11;
                 }
-                else{
-                    return 1;
+                else {
+                    if ((dealerTotal + 11) >= 17) {
+                        return 11;
+                    } else {
+                        return 1;
+                    }
                 }
 
             case "2":
